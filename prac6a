@@ -49,11 +49,11 @@ try:
                 print("Cannibals eat missionaries:\nYou lost the game")
                 break
 
-            if (rM + rC) == 6:
-                print("You won the game : \n\tCongrats")
-                print("Total attempt")
-                print(k)
-                break
+        if (rM + rC) == 6:
+            print("You won the game : \n\tCongrats")
+            print("Total attempt")
+            print(k)
+            break
             
         while boat=='R':
             print("Right side -> left side river travel")
