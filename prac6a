@@ -18,10 +18,11 @@ rC = 0  # Right side cannibals number
 userM = 0  # User input for the number of missionaries for right to left side travel
 userC = 0  # User input for the number of cannibals for right to left travel
 k = 0
+boat='L'
 print("\nM M M C C C | --- | \n")
 try:
-    #while True:
-        while True:
+    while True:
+        while boat=='L':
             print("Left side -> right side river travel")
             uM = int(input("Enter number of Missionaries travel => "))
             uC = int(input("Enter number of Cannibals travel => "))
@@ -29,13 +30,17 @@ try:
             if uM == 0 and uC == 0:
                 print("Empty travel not possible")
                 print("Re-enter : ")
+                break
+                
             elif (uM + uC) <= 2 and (lM - uM) >= 0 and (lC - uC) >= 0:
                 lM -= uM
                 lC -= uC
                 rM += uM
                 rC += uC
+                boat='R'
             else:
                 print("Wrong input re-enter : ")
+                break
 
             print_state(lM, lC, rM, rC)
             k += 1
@@ -49,7 +54,8 @@ try:
                 print("Total attempt")
                 print(k)
                 break
-
+            
+        while boat=='R':
             print("Right side -> left side river travel")
             userM = int(input("Enter number of Missionaries travel => "))
             userC = int(input("Enter number of Cannibals travel => "))
@@ -57,19 +63,26 @@ try:
             if userM == 0 and userC == 0:
                 print("Empty travel not possible")
                 print("Re-enter : ")
+                break
+                    
+                    
             elif (userM + userC) <= 2 and (rM - userM) >= 0 and (rC - userC) >= 0:
                 rM -= userM
                 rC -= userC
                 lM += userM
                 lC += userC
+                boat='L'
             else:
                 print("Wrong input re-enter : ")
+                break
 
             print_state(lM, lC, rM, rC)
             k += 1
+                
 
             if ((lC == 3) and (lM == 1)) or ((lC == 3) and (lM == 2)) or ((lC == 2) and (lM == 1)) or ((rC == 3) and (rM == 1)) or ((rC == 3) and (rM == 2)) or ((rC == 2) and (rM == 1)):
                 print("Cannibals eat missionaries:\nYou lost the game")
+                boat='L'
                 break
 
 except EOFError as e:
