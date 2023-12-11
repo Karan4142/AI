@@ -1,0 +1,22 @@
+graph1 = {
+    'A': set(['B', 'E', 'C']),
+    'B': set(['A', 'D', 'E']),
+    'C': set(['A', 'F', 'G']),
+    'D': set(['B', 'E']),
+    'E': set(['A', 'B', 'D']),
+    'F': set(['C']),
+    'G': set(['C'])
+}
+
+def bfs(graph, start, explored):
+    queue = [start]
+    while queue:
+        node = queue.pop(0)
+        if node not in explored:
+            explored.append(node)
+            for neighbor in graph[node]:
+                queue.append(neighbor)
+    return explored
+
+explored = bfs(graph1, 'A', [])
+print(explored)
