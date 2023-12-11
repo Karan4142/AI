@@ -1,0 +1,19 @@
+graph1 = {
+    'A': set(['B', 'E', 'C']),
+    'B': set(['A', 'D', 'E']),
+    'C': set(['A', 'F', 'G']),
+    'D': set(['B', 'E']),
+    'E': set(['A', 'B', 'D']),
+    'F': set(['C']),
+    'G': set(['C'])
+}
+
+def dfs(graph, node, explored):
+    if node not in explored:
+        explored.append(node)
+        for neighbor in graph[node]:
+            dfs(graph, neighbor, explored)
+    return explored
+
+explored = dfs(graph1, 'A', [])
+print(explored)
