@@ -1,0 +1,64 @@
+import random
+import numpy as np
+
+# Coordinates of the points/cities
+coordinates = np.array([[1, 2], [30, 21], [56, 23], [8, 18], [20, 50], [3, 4], [11, 6],
+                        [6, 7], [15, 20], [10, 9], [12, 12]])
+
+# Adjacency matrix for a weighted graph based on the given coordinates
+def generate_matrix(coordinates):
+    n = len(coordinates)
+    matrix = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            matrix[i][j] = np.linalg.norm(coordinates[i] - coordinates[j])
+    return matrix
+
+# Calculate the path length based on a solution
+def path_length(matrix, solution):
+    cycle_length = 0
+    n = len(solution)
+    for i in range(n):
+        cycle_length += matrix[solution[i]][solution[(i + 1) % n]]
+    return cycle_length
+
+# Generate a random solution
+def random_solution(n):
+    solution = list(range(n))
+    random.shuffle(solution)
+    return solution
+
+# Generate neighbors of the solution by swapping cities
+def generate_neighbors(solution):
+    neighbors = []
+    n = len(solution)
+    for i in range(n):
+        for j in range(i + 1, n):
+            neighbor = solution[:]
+            neighbor[i], neighbor[j] = neighbor[j], neighbor[i]
+            neighbors.append(neighbor)
+    return neighbors
+
+def hill_climbing(coordinates):
+    matrix = generate_matrix(coordinates)
+    n = len(coordinates)
+
+    current_solution = random_solution(n)
+    current_length = path_length(matrix, current_solution)
+
+    improvement = True
+    while improvement:
+        improvement = False
+        neighbors = generate_neighbors(current_solution)
+        for neighbor in neighbors:
+            neighbor_length = path_length(matrix, neighbor)
+            if neighbor_length < current_length:
+                current_solution = neighbor
+                current_length = neighbor_length
+                improvement = True
+
+    return current_solution, current_length
+
+final_solution, min_length = hill_climbing(coordinates)
+print("The best solution is:", final_solution)
+print("Total length of the path:", min_length)
